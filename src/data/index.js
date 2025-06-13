@@ -1,6 +1,4 @@
-import { Project, Skill, Experience, Education, Certification, SocialLink } from '../types';
-
-export const projects: Project[] = [
+export const projects = [
   {
     id: 1,
     title: "Bharat Leadership Excellence Awards",
@@ -43,36 +41,36 @@ export const projects: Project[] = [
   }
 ];
 
-export const skills: Skill[] = [
+export const skills = [
   // Frontend
   { name: "React.js", category: "frontend", proficiency: 4 },
   { name: "HTML5", category: "frontend", proficiency: 5 },
   { name: "CSS3", category: "frontend", proficiency: 4 },
   { name: "JavaScript", category: "frontend", proficiency: 4 },
-  
+
   // Backend
   { name: "Node.js", category: "backend", proficiency: 4 },
   { name: "Express.js", category: "backend", proficiency: 4 },
   { name: "Spring Boot", category: "backend", proficiency: 3 },
   { name: "Java", category: "backend", proficiency: 4 },
-  
+
   // Database
   { name: "MongoDB", category: "database", proficiency: 4 },
   { name: "MySQL", category: "database", proficiency: 3 },
-  
+
   // Tools
   { name: "Git", category: "tools", proficiency: 4 },
   { name: "GitHub", category: "tools", proficiency: 4 },
   { name: "Postman", category: "tools", proficiency: 4 },
   { name: "VS Code", category: "tools", proficiency: 5 },
-  
+
   // Other
   { name: "REST APIs", category: "other", proficiency: 4 },
   { name: "Agile", category: "other", proficiency: 3 },
   { name: "Debugging", category: "other", proficiency: 4 }
 ];
 
-export const experiences: Experience[] = [
+export const experiences = [
   {
     company: "Brain O Vision",
     role: "Junior Developer",
@@ -87,7 +85,7 @@ export const experiences: Experience[] = [
   }
 ];
 
-export const education: Education[] = [
+export const education = [
   {
     institution: "G. Pulla Reddy Engineering College",
     degree: "B.Tech in Computer Science and Engineering",
@@ -96,7 +94,7 @@ export const education: Education[] = [
   }
 ];
 
-export const certifications: Certification[] = [
+export const certifications = [
   {
     name: "Java Programming",
     issuer: "Ebox",
@@ -119,16 +117,21 @@ export const workshops = [
   }
 ];
 
-export const socialLinks: SocialLink[] = [
+export const socialLinks = [
   {
     name: "LinkedIn",
-    url: "https://linkedin.com/in/praneethbabu",
+    url: "https://www.linkedin.com/in/praneeth-babu-yeddula-4639b0283/",
     icon: "Linkedin"
   },
   {
     name: "GitHub",
     url: "https://github.com/praneethbabu",
     icon: "Github"
+  },
+  {
+    name: "Instagram",
+    url: "https://instagram.com/_praneeth_pb", // replace with your actual username
+    icon: "Instagram"
   },
   {
     name: "Email",

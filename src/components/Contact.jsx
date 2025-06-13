@@ -1,46 +1,58 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { personalInfo, socialLinks } from '../data';
-import { Mail, Phone, MapPin, Send, Linkedin, Github } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, Linkedin, Github, Instagram } from 'lucide-react';
 
-const Contact: React.FC = () => {
+const Contact = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     message: ''
   });
-  
-  const [formStatus, setFormStatus] = useState<{
-    type: 'success' | 'error' | null;
-    message: string;
-  }>({
+
+  const [formStatus, setFormStatus] = useState({
     type: null,
     message: ''
   });
-  
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+
+  const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
-  
-  const handleSubmit = (e: React.FormEvent) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // This would typically connect to a backend service
-    // For now, we'll just simulate a successful submission
-    setFormStatus({
-      type: 'success',
-      message: 'Thank you for your message! I will get back to you soon.'
-    });
-    
-    // Reset form after submission
-    setFormData({ name: '', email: '', message: '' });
-    
-    // Reset status message after 5 seconds
+
+    try {
+      const response = await fetch('https://formspree.io/f/mzzgrgdg', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      });
+
+      if (response.ok) {
+        setFormStatus({
+          type: 'success',
+          message: '✅ Message sent! I will get back to you soon.'
+        });
+        setFormData({ name: '', email: '', message: '' });
+      } else {
+        throw new Error('Failed to send');
+      }
+    } catch (error) {
+      setFormStatus({
+        type: 'error',
+        message: '❌ Failed to send message. Please try again later.'
+      });
+    }
+
     setTimeout(() => {
       setFormStatus({ type: null, message: '' });
     }, 5000);
   };
-  
+
   const contactInfo = [
     {
       icon: <Mail className="w-5 h-5 text-primary-600 dark:text-primary-400" />,
@@ -60,7 +72,7 @@ const Contact: React.FC = () => {
       value: personalInfo.location
     }
   ];
-  
+
   return (
     <section id="contact" className="section">
       <div className="container-custom">
@@ -71,14 +83,14 @@ const Contact: React.FC = () => {
           transition={{ duration: 0.5 }}
         >
           <h2 className="section-title">Get In Touch</h2>
-          
+
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-10">
             {/* Contact Info */}
             <div className="lg:col-span-2 space-y-8">
               <p className="text-lg text-gray-700 dark:text-gray-300">
-                Feel free to reach out if you're looking for a developer, have a question, or just want to connect.
+                I'm open to collaboration, freelance, or full-time roles. Feel free to connect.
               </p>
-              
+
               <div className="space-y-4">
                 {contactInfo.map((item, index) => (
                   <motion.div
@@ -89,7 +101,7 @@ const Contact: React.FC = () => {
                     transition={{ duration: 0.5, delay: index * 0.1 }}
                     className="flex items-start"
                   >
-                    <div className="flex-shrink-0 p-2 bg-primary-100 dark:bg-primary-900/30 rounded-full mr-4">
+                    <div className="p-2 bg-primary-100 dark:bg-primary-900/30 rounded-full mr-4">
                       {item.icon}
                     </div>
                     <div>
@@ -97,14 +109,14 @@ const Contact: React.FC = () => {
                         {item.label}
                       </h3>
                       {item.link ? (
-                        <a 
+                        <a
                           href={item.link}
-                          className="text-gray-900 dark:text-white font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+                          className="text-base text-gray-900 dark:text-white font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
                         >
                           {item.value}
                         </a>
                       ) : (
-                        <p className="text-gray-900 dark:text-white font-medium">
+                        <p className="text-base text-gray-900 dark:text-white font-medium">
                           {item.value}
                         </p>
                       )}
@@ -112,17 +124,20 @@ const Contact: React.FC = () => {
                   </motion.div>
                 ))}
               </div>
-              
+
               <div className="pt-4">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
                   Connect With Me
                 </h3>
-                
+
                 <div className="flex space-x-4">
                   {socialLinks.map((link, index) => {
-                    const Icon = link.icon === 'Linkedin' ? Linkedin : 
-                               link.icon === 'Github' ? Github : Mail;
-                    
+                    const Icon =
+                      link.icon === 'Linkedin' ? Linkedin :
+                      link.icon === 'Github' ? Github :
+                      link.icon === 'Instagram' ? Instagram :
+                      Mail;
+
                     return (
                       <a
                         key={index}
@@ -139,7 +154,7 @@ const Contact: React.FC = () => {
                 </div>
               </div>
             </div>
-            
+
             {/* Contact Form */}
             <motion.div
               initial={{ opacity: 0, x: 20 }}
@@ -151,22 +166,22 @@ const Contact: React.FC = () => {
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
                 Send Me a Message
               </h3>
-              
+
               {formStatus.type && (
-                <div 
-                  className={`p-4 mb-4 rounded-md ${
-                    formStatus.type === 'success' 
-                      ? 'bg-success-500/10 text-success-600 dark:bg-success-500/20 dark:text-success-500' 
-                      : 'bg-error-500/10 text-error-600 dark:bg-error-500/20 dark:text-error-500'
+                <div
+                  className={`p-4 mb-4 rounded-md text-sm font-medium ${
+                    formStatus.type === 'success'
+                      ? 'bg-green-100 text-green-700 dark:bg-green-900/20 dark:text-green-400'
+                      : 'bg-red-100 text-red-700 dark:bg-red-900/20 dark:text-red-400'
                   }`}
                 >
                   {formStatus.message}
                 </div>
               )}
-              
+
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  <label htmlFor="name" className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
                     Your Name
                   </label>
                   <input
@@ -176,12 +191,12 @@ const Contact: React.FC = () => {
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white"
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
                   />
                 </div>
-                
+
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  <label htmlFor="email" className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
                     Your Email
                   </label>
                   <input
@@ -191,12 +206,12 @@ const Contact: React.FC = () => {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white"
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
                   />
                 </div>
-                
+
                 <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  <label htmlFor="message" className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
                     Your Message
                   </label>
                   <textarea
@@ -206,15 +221,15 @@ const Contact: React.FC = () => {
                     onChange={handleChange}
                     required
                     rows={5}
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white"
-                  ></textarea>
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
+                  />
                 </div>
-                
+
                 <button
                   type="submit"
-                  className="btn btn-primary w-full flex items-center justify-center"
+                  className="btn btn-primary w-full flex items-center justify-center gap-2"
                 >
-                  <Send size={16} className="mr-2" />
+                  <Send size={16} />
                   Send Message
                 </button>
               </form>

@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-scroll';
 import { Menu, X, Moon, Sun } from 'lucide-react';
 
-const Navbar: React.FC = () => {
+const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  
+
   const toggleMenu = () => setIsOpen(!isOpen);
-  
+
   const toggleDarkMode = () => {
     setIsDarkMode(!isDarkMode);
     if (isDarkMode) {
@@ -19,26 +19,20 @@ const Navbar: React.FC = () => {
       localStorage.theme = 'dark';
     }
   };
-  
-  // Handle scroll event
+
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 10) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
+      setScrolled(window.scrollY > 10);
     };
-    
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-  
-  // Check for dark mode preference on initial load
+
   useEffect(() => {
-    if (localStorage.theme === 'dark' || 
-        (!('theme' in localStorage) && 
-         window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    if (
+      localStorage.theme === 'dark' ||
+      (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
+    ) {
       document.documentElement.classList.add('dark');
       setIsDarkMode(true);
     } else {
@@ -46,7 +40,7 @@ const Navbar: React.FC = () => {
       setIsDarkMode(false);
     }
   }, []);
-  
+
   const navLinks = [
     { name: 'Home', to: 'hero', offset: -70 },
     { name: 'About', to: 'about', offset: -70 },
@@ -56,9 +50,9 @@ const Navbar: React.FC = () => {
     { name: 'Education', to: 'education', offset: -70 },
     { name: 'Contact', to: 'contact', offset: -70 }
   ];
-  
+
   return (
-    <header 
+    <header
       className={`fixed w-full z-50 transition-all duration-300 ${
         scrolled ? 'bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm shadow-sm' : 'bg-transparent'
       }`}
@@ -76,8 +70,8 @@ const Navbar: React.FC = () => {
           >
             PBY
           </Link>
-          
-          {/* Desktop Navigation */}
+
+          {/* Desktop Nav */}
           <nav className="hidden md:flex space-x-1">
             {navLinks.map((link) => (
               <Link
@@ -88,14 +82,14 @@ const Navbar: React.FC = () => {
                 offset={link.offset}
                 duration={500}
                 activeClass="nav-link-active"
-                className="nav-link cursor-pointer"
+                className="nav-link cursor-pointer text-gray-700 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-400 transition-colors px-3 py-2 text-sm font-medium"
               >
                 {link.name}
               </Link>
             ))}
           </nav>
-          
-          {/* Dark Mode Toggle and Mobile Menu Button */}
+
+          {/* Right controls */}
           <div className="flex items-center space-x-4">
             <button
               onClick={toggleDarkMode}
@@ -104,7 +98,7 @@ const Navbar: React.FC = () => {
             >
               {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
             </button>
-            
+
             <button
               onClick={toggleMenu}
               className="md:hidden p-2 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
@@ -115,8 +109,8 @@ const Navbar: React.FC = () => {
           </div>
         </div>
       </div>
-      
-      {/* Mobile Navigation */}
+
+      {/* Mobile Menu */}
       {isOpen && (
         <div className="md:hidden bg-white dark:bg-gray-900 shadow-md">
           <div className="container-custom py-4">
@@ -131,7 +125,7 @@ const Navbar: React.FC = () => {
                   duration={500}
                   onClick={() => setIsOpen(false)}
                   activeClass="nav-link-active"
-                  className="nav-link cursor-pointer"
+                  className="nav-link cursor-pointer px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
                 >
                   {link.name}
                 </Link>
