@@ -103,11 +103,12 @@ const Hero = () => {
           >
             <div className="relative">
               <div className="w-64 h-64 sm:w-80 sm:h-80 rounded-full bg-primary-100 dark:bg-primary-900/30 overflow-hidden border-4 border-white dark:border-gray-800 shadow-xl">
-                <img
-                  src="public/praneethbabu.png"
-                  alt="Praneeth Babu Yeddula"
-                  className="w-full h-full object-cover"
-                />
+               <img
+  src="/praneethbabu.png"   {/* ← no “public/” */}
+  alt="Praneeth Babu Yeddula"
+  className="w-full h-full object-cover"
+/>
+
               </div>
               <div className="absolute -bottom-4 -right-4 bg-white dark:bg-gray-800 px-4 py-2 rounded-lg shadow-lg">
                 <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
