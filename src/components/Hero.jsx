@@ -104,7 +104,7 @@ const Hero = () => {
             <div className="relative">
               <div className="w-64 h-64 sm:w-80 sm:h-80 rounded-full bg-primary-100 dark:bg-primary-900/30 overflow-hidden border-4 border-white dark:border-gray-800 shadow-xl">
                <img
-  src="/praneethbabu.png"   {/* ← no “public/” */}
+  src="/praneethbabu.png"  
   alt="Praneeth Babu Yeddula"
   className="w-full h-full object-cover"
 />
